@@ -1,0 +1,3 @@
+INSERT INTO PROYECTOSIAV2.dbo.TG_TMP_TO_COMPARE
+SELECT *
+FROM PROYECTOSIAV2.dbo.fn_TG_TMP_Obtener_Cambios_insertar_to_compare_prima()

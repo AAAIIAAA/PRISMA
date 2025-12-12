@@ -1,0 +1,10 @@
+SET QUOTED_IDENTIFIER ON;
+UPDATE C
+SET C.Email  =  U.Email
+
+FROM (SELECT * FROM PROYECTOSIAV2.dbo.TG_Contacto WHERE ID LIKE '%PRI%') C
+LEFT JOIN TeamMate_Prima.dbo.TM_User U
+ON C.ID = 'PRI-'+CONVERT(VARCHAR,U.ID)
+WHERE C.ID IS not NULL 
+AND C.Email COLLATE Modern_Spanish_CI_AS NOT LIKE U.Email COLLATE Modern_Spanish_CI_AS
+Select 1 as flag

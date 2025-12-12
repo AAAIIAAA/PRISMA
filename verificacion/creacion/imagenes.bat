@@ -1,0 +1,1 @@
+python E:\Proyectos\Calidad_Forma\Scripts\creacion\IMAGENES.py

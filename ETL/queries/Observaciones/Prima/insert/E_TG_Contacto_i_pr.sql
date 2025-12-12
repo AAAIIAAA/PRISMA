@@ -1,0 +1,39 @@
+
+
+
+
+SET QUOTED_IDENTIFIER ON;
+-- CONTACTOS
+INSERT INTO PROYECTOSIAV2.dbo.TG_Contacto
+SELECT 
+'PRI-'+CONVERT(VARCHAR,OH.ID), 
+PROYECTOSIAV2.dbo.InitCap(OH.FirstName), 
+PROYECTOSIAV2.dbo.InitCap(OH.LastName), 
+LOWER(OH.Email),
+0
+FROM (
+	SELECT U.ID , U.FirstName, U.LastName, U.Email
+FROM TeamMate_Prima.dbo.TM_User U 
+LEFT JOIN TeamMate_Prima.dbo.TM_Auditor A ON U.ID = A.UserID
+WHERE A.UserID IS NULL
+  and U.ActiveStatusLID = 0 AND U.ID <> 1
+) OH LEFT JOIN PROYECTOSIAV2.dbo.TG_Contacto C ON C.ID = 'PRI-'+CONVERT(VARCHAR,OH.ID)
+WHERE C.ID IS NULL AND OH.ID IS NOT NULL
+
+-- AUDITORES
+
+INSERT INTO PROYECTOSIAV2.dbo.TG_Contacto
+SELECT 
+'PRI-'+CONVERT(VARCHAR,OH.ID), 
+PROYECTOSIAV2.dbo.InitCap(OH.FirstName), 
+PROYECTOSIAV2.dbo.InitCap(OH.LastName), 
+LOWER(OH.Email),
+1
+FROM (
+	SELECT U.ID ,U.FirstName, U.LastName, U.Email
+  FROM TeamMate_Prima.dbo.TM_User U INNER JOIN TeamMate_Prima.dbo.TM_Auditor A ON U.ID = A.UserID
+	
+  WHERE U.ActiveStatusLID = 0 AND U.ID <> 1
+) OH LEFT JOIN PROYECTOSIAV2.dbo.TG_Contacto C ON C.ID = 'PRI-'+CONVERT(VARCHAR,OH.ID)
+WHERE C.ID IS NULL AND OH.ID IS NOT NULL
+Select 1 as flag
